@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container center">
+    <h3>Search Credit Cards</h3>
+    <div>
+        <form th:object="${creditCard}" th:action="@{/credit-cards/search}" method="post">
+            <div class="form-group">
+                <input type="number" th:field="*{number}" id="number" class="form-control mb-2 mr-sm-2" placeholder="Enter Credit Card Number" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" >Search</button>
+            </div>
+        </form>
+    </div>
+    <br/>
+    <div th:if="${#lists.isEmpty(creditCards)}">
+        <span>Couldn't find any credit card.</span>
+    </div>
+    <div th:if="${not #lists.isEmpty(creditCards)}">
+        <table th:id="${tableName}" class="table table-striped table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Expiration Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="creditCard : ${creditCards}">
+                <td th:text="${creditCard.id}"></td>
+                <td th:text="${creditCard.number}"></td>
+                <td th:text="${creditCard.name}"></td>
+                <td th:text="${creditCard.expirationDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
